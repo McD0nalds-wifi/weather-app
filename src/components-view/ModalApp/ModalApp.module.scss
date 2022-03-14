@@ -1,0 +1,18 @@
+.internetError {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.internetError__image {
+    height: 100px;
+}
+
+.internetError__text {
+    color: $white;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+}
