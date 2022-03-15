@@ -2,21 +2,35 @@ import React from 'react'
 
 import style from './Card.module.scss'
 
-import * as ModelsUI from '../../types/ui/models'
+import { ModelsUI } from 'types'
 
 /* START - Card additional imports and module code. */
+import loader from '../../assets/loader.svg'
 
-const Card: React.FC = () => {
+const Card: React.FC<ModelsUI.ICardProps> = ({ city, condition, icon, localtime, temperature, isLoading }) => {
+    const date = new Date(localtime).toLocaleString('ru', {
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+    })
+
     return (
-        <div
-            style={{
-                padding: '20px',
-                backgroundColor: 'white',
-                borderRadius: '20px',
-                boxShadow: '0px 5px 10px 2px rgba(34, 60, 80, 0.2)',
-            }}
-        >
-            some text
+        <div className={`${style.card} ${isLoading ? style.card_loading : ''}`}>
+            <div className={style.card__header}>
+                <div className={style.card__headerTitle}>{city}</div>
+                <img src={icon} alt={'weather icon'} />
+            </div>
+
+            <div className={style.card__temperature}>{temperature}°</div>
+            <div className={style.card__condition}>{condition}</div>
+            <div className={style.card__date}>{date}</div>
+
+            {isLoading ? (
+                <div className={style.card__loader}>
+                    <img src={loader} alt={'loader'} />
+                </div>
+            ) : null}
         </div>
     )
 }

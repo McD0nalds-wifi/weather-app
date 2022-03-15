@@ -43,7 +43,7 @@ const getModalTitle = (appState: ModalAppStateType): string => {
 
 const ModalApp: React.FC = () => {
     /* START - Get store values. */
-    const appState = useTypedSelector((state) => state.app, shallowEqual)
+    const appState = useTypedSelector((state) => state.modalApp, shallowEqual)
     /* END - Get store values. */
 
     /* START - Tracking side-effects. */

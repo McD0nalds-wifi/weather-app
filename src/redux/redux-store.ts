@@ -3,9 +3,11 @@ import { ThunkAction } from 'redux-thunk'
 import { Action } from 'redux'
 
 import modalAppReducer from './reducers/modalApp-reducer'
+import mainAppReducer from './reducers/mainApp-reducer'
 
 const rootReducer = combineReducers({
-    app: modalAppReducer.reducer,
+    modalApp: modalAppReducer.reducer,
+    mainApp: mainAppReducer.reducer,
 })
 
 type RootReducerType = typeof rootReducer
