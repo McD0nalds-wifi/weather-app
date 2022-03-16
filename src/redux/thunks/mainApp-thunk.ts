@@ -1,4 +1,4 @@
-import { AxiosResponse } from 'axios'
+import { AxiosError, AxiosResponse } from 'axios'
 
 import { ModelsRedux, EnumsRedux } from 'types'
 
@@ -27,6 +27,9 @@ export const performInputSearchSelectValue =
         /* END - thunk performInputSearchSelectValue after execute code. */
     }
 
+/**
+ * Weather data request
+ */
 export const callGetWeather = (): MainAppThunkType => (dispatch, getState) => {
     /* START - thunk callGetWeather before execute code. */
     if (!util.checkInternetConnected()) {
@@ -40,6 +43,52 @@ export const callGetWeather = (): MainAppThunkType => (dispatch, getState) => {
         dispatch(mainAppReducer.actions.performSetWeatherPhase('InProgress'))
         dispatch(mainAppReducer.actions.performSetWeatherError(null))
 
+        // setTimeout(() => {
+        //     const data: ModelsRedux.IResponseWeather = {
+        //         location: {
+        //             name: 'Челябинск',
+        //             region: 'Chelyabinsk',
+        //             country: 'Россия',
+        //             lat: 55.15,
+        //             lon: 61.43,
+        //             tz_id: 'Asia/Yekaterinburg',
+        //             localtime_epoch: 1647426538,
+        //             localtime: '2022-03-16 15:28',
+        //         },
+        //         current: {
+        //             last_updated_epoch: 1647425700,
+        //             last_updated: '2022-03-16 15:15',
+        //             temp_c: -7,
+        //             temp_f: 19.4,
+        //             is_day: 1,
+        //             condition: {
+        //                 text: 'Солнечно',
+        //                 icon: '//cdn.weatherapi.com/weather/64x64/day/113.png',
+        //                 code: 1000,
+        //             },
+        //             wind_mph: 0,
+        //             wind_kph: 0,
+        //             wind_degree: 0,
+        //             wind_dir: 'N',
+        //             pressure_mb: 1038,
+        //             pressure_in: 30.65,
+        //             precip_mm: 0,
+        //             precip_in: 0,
+        //             humidity: 45,
+        //             cloud: 0,
+        //             feelslike_c: -10,
+        //             feelslike_f: 14.1,
+        //             vis_km: 10,
+        //             vis_miles: 6,
+        //             uv: 1,
+        //             gust_mph: 4.3,
+        //             gust_kph: 6.8,
+        //         },
+        //     }
+        //     dispatch(mainAppReducer.actions.performSetWeatherData(data))
+        //     dispatch(mainAppReducer.actions.performSetWeatherPhase('Success'))
+        // }, Math.random() * 100 + 300)
+
         API.apiGet<ModelsRedux.IReguestWeather, ModelsRedux.IResponseWeather>(
             'current.json',
             {
@@ -52,9 +101,11 @@ export const callGetWeather = (): MainAppThunkType => (dispatch, getState) => {
                 dispatch(mainAppReducer.actions.performSetWeatherData(response.data))
                 dispatch(mainAppReducer.actions.performSetWeatherPhase('Success'))
             },
-            (error: AxiosResponse<ModelsRedux.IError>) => {
-                dispatch(mainAppReducer.actions.performSetWeatherError(error.data))
-                dispatch(mainAppReducer.actions.performSetWeatherPhase('Failure'))
+            (error: AxiosResponse<ModelsRedux.IError> | undefined) => {
+                if (error) {
+                    dispatch(mainAppReducer.actions.performSetWeatherError(error.data))
+                    dispatch(mainAppReducer.actions.performSetWeatherPhase('Failure'))
+                }
             },
             () => null,
             false,

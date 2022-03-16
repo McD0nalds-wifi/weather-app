@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios'
+import axios, { AxiosError, AxiosResponse } from 'axios'
 
 import { ModelsRedux } from 'types'
 
@@ -14,17 +14,17 @@ export const API = {
         url: string,
         data: D,
         success: (response: AxiosResponse<R>) => void,
-        failure: (response: AxiosResponse<ModelsRedux.IError>) => void,
+        failure: (response: AxiosResponse<ModelsRedux.IError> | undefined) => void,
         mock: (
             success: (response: AxiosResponse<R>) => void,
-            failure: (response: AxiosResponse<ModelsRedux.IError>) => void,
+            failure: (response: AxiosResponse<ModelsRedux.IError> | undefined) => void,
         ) => void,
         isMockEnabled: boolean,
     ) => {
         if (isMockEnabled) {
             mock(success, failure)
         } else {
-            let apiData = []
+            let apiData: string[] = []
 
             for (let key in data) {
                 apiData.push(`${key}=${data[key]}`)
@@ -33,7 +33,7 @@ export const API = {
             return instance
                 .get(`${url}?${apiData.join('&')}`)
                 .then((res: AxiosResponse<R>) => success(res))
-                .catch((err) => failure(err.response))
+                .catch((err: AxiosError<ModelsRedux.IError>) => failure(err.response))
         }
     },
 }

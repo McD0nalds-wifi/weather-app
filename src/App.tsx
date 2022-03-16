@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { Provider } from 'react-redux'
-import { BrowserRouter } from 'react-router-dom'
 
 import './App.module.scss'
 
@@ -12,11 +11,9 @@ import { MainApp } from 'components-view'
 
 const App: React.FC = () => {
     return (
-        <BrowserRouter>
-            <Provider store={store}>
-                <MainApp />
-            </Provider>
-        </BrowserRouter>
+        <Provider store={store}>
+            <MainApp />
+        </Provider>
     )
 }
 

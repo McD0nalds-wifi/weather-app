@@ -25,12 +25,6 @@ const MainApp: React.FC = () => {
     /* END - Tracking side-effects. */
 
     /* START - View MainApp content. */
-    reducerState.weatherData?.location.name
-    reducerState.weatherData?.location.localtime
-    reducerState.weatherData?.location.localtime_epoch
-    reducerState.weatherData?.current.temp_c
-    reducerState.weatherData?.current.condition.text
-    reducerState.weatherData?.current.condition.icon
 
     return (
         <React.Fragment>
